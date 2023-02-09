@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #sales_table
+        {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        #sales_table,#sales_table th,#sales_table td
+        {
+            border: 1px solid black;
+        }
+        #sales_table input
+        {
+            width: 95%;
+        }
+        #sales_table tfoot input
+        {
+            width: 200px;
+        }
+
+    </style>
+</head>
+<body>
+    <table id="sales_table">
+        <colgroup>
+            <col style="width:100px">
+        </colgroup>
+        <thead>
+            <tr>
+                <th colspan="6">
+                    <label for="search_input">Search Product Bellow</label>
+                    <input type="search" onkeypress="add_row(this.value)" name="search_input" list="search_dl" id="search_input">
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    No
+                </th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>price | 1</th>
+                <th>Total</th>
+                <th>Operation</th>
+            </tr>
+        </thead>
+        <tbody id="sales_tbody">
+          
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="2">Total</th>
+                <td colspan="4">
+                    <input type="number" readonly id="total_input" step="0.01">
+                </td>
+            </tr>
+            <tr>
+                <th colspan="2">Discount %</th>
+                <td colspan="4">
+                    <input type="number"  id="discount_input" step="0.01">
+                </td>
+            </tr>
+            <tr>
+                <th colspan="2">After Discount(Final Price)</th>
+                <td colspan="4">
+                    <input type="number" readonly  id="final_price_input" step="0.01">
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <datalist id="search_dl" name="search_dl">
+        <option value="ChewingGum">ChewingGum</option>
+        <option value="Monster">Monster</option>
+        <option value="white paper">white paper</option>
+    </datalist>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
