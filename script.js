@@ -1,11 +1,11 @@
 
 var counter = 1;
+var tbody = document.getElementById('sales_tbody');
 function add_row(search_value)
 {
     if(event.key == "Enter")
     {
 
-        var tbody = document.getElementById('sales_tbody');
 
         var tbody_length = tbody.rows.length;
         
@@ -93,6 +93,7 @@ function add_row(search_value)
 
 function set_counter()
     {
+    
         var tbody_length = tbody.rows.length;
         for (let index = 0; index < tbody_length; index++) {
             var ID = tbody.rows[index].id;
@@ -147,5 +148,6 @@ function calculation()
     function Delete_Row(id) {
         var id_to_arr = id.split('_');
         document.getElementById('row_id_'+id_to_arr[3]).remove();
+        set_counter();
         calculation();
     }
