@@ -45,7 +45,7 @@ function add_row(search_value)
                 new_row_content += '<td><input type="text" onkeyup="calculation()" value="" id="Price_1_id_'+counter+'" /></td>';
                 new_row_content += '<td><input type="text" value="" readonly id="Row_Total_id_'+counter+'" /></td>';
         
-                new_row_content += '<td><button onclick="Delete_Row(this)">X</button></td>';
+                new_row_content += '<td><button id="delete_row_id_'+counter+'" onclick="Delete_Row(this.id)">X</button></td>';
         
                 var tbody_length = tbody.rows.length;
                 var added_new_row = tbody.insertRow(tbody_length);
@@ -68,7 +68,7 @@ function add_row(search_value)
             new_row_content += '<td><input type="text" onkeyup="calculation()" value="" id="Price_1_id_'+counter+'" /></td>';
             new_row_content += '<td><input type="text" value="" id="Row_Total_id_'+counter+'" /></td>';
      
-            new_row_content += '<td><button id="delete_row_id_'+counter+'" onclick="Delete_Row(this)">X</button></td>';
+            new_row_content += '<td><button id="delete_row_id_'+counter+'" onclick="Delete_Row(this.id)">X</button></td>';
     
             var tbody_length = tbody.rows.length;
             var added_new_row = tbody.insertRow(tbody_length);
@@ -144,8 +144,8 @@ function calculation()
 
     }
 
-    function Delete_Row(index) {
-        
-        document.getElementById('tbody').deleteRow(index.parentNode.parentNode.rowIndex);
-
+    function Delete_Row(id) {
+        var id_to_arr = id.split('_');
+        document.getElementById('row_id_'+id_to_arr[3]).remove();
+        calculation();
     }
