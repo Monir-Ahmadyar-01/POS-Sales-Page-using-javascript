@@ -46,10 +46,10 @@ function add_row(search_value) {
     } else {
       var new_row_content = '';
       new_row_content += `<td id="counter_id_${counter}">${counter}</td>`;
-      new_row_content += `<td id="product_td_${counter}"><input type="text" value="${search_value}" id="product_id_${counter}" /></td>`;
-      new_row_content += `<td><input type="text" onkeyup="calculation()" value="1" id="Quantity_id_${counter}" /></td>`;
-      new_row_content += `<td><input type="text" onkeyup="calculation()" value="" id="Price_1_id_${counter}" /></td>`;
-      new_row_content += `<td><input type="text" value="" id="Row_Total_id_${counter}" /></td>`;
+      new_row_content += `<td id="product_td_${counter}"><input class="form-control border" type="text" value="${search_value}" id="product_id_${counter}" /></td>`;
+      new_row_content += `<td><input class="form-control border" type="text" onkeyup="calculation()" value="1" id="Quantity_id_${counter}" /></td>`;
+      new_row_content += `<td><input class="form-control border" type="text" onkeyup="calculation()" value="" id="Price_1_id_${counter}" /></td>`;
+      new_row_content += `<td><input class="form-control border" type="text" value="" id="Row_Total_id_${counter}" /></td>`;
 
       new_row_content += `<td><button class="btn btn-danger" id="delete_row_id_${counter}" onclick="Delete_Row(this.id)">X</button></td>`;
 
