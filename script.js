@@ -26,29 +26,36 @@ function add_row(search_value) {
       }
 
       if (check.includes('true') == false) {
+        var salesPriceValue = salesPrice[search_value];
+        var defaultPriceInputValue = parseFloat(document.getElementById('headerInput').value);
+        var finalPrice = parseFloat(salesPriceValue) + ((parseFloat(salesPriceValue) * defaultPriceInputValue) / 100);
         var new_row_content = '';
         new_row_content += `<td id="counter_id_${counter}">${counter}</td>`;
-        new_row_content += `<td id="product_td_${counter}"><input type="text" value="${search_value}" id="product_id_${counter}" /></td>`;
-        new_row_content += `<td><input type="text" onkeyup="calculation()" value="1" id="Quantity_id_${counter}" /></td>`;
-        new_row_content += `<td><input type="text" onkeyup="calculation()" value="" id="Price_1_id_${counter}" /></td>`;
-        new_row_content += `<td><input type="text" value="" readonly id="Row_Total_id_${counter}" /></td>`;
+        new_row_content += `<td id="product_td_${counter}"><input class="form-control border" type="text" value="${search_value}" id="product_id_${counter}" /></td>`;
+        new_row_content += `<td><input class="form-control border" type="text" onkeyup="calculation()" value="1" id="Quantity_id_${counter}" /></td>`;
+        new_row_content += `<td><input class="form-control border" type="text" onkeyup="calculation()" value="${finalPrice}" id="Price_1_id_${counter}" /></td>`;
+        new_row_content += `<td><input class="form-control border" type="text" value="" id="Row_Total_id_${counter}" /></td>`;
 
-        new_row_content += `<td><button id="delete_row_id_${counter}" onclick="Delete_Row(this.id)">X</button></td>`;
+        new_row_content += `<td><button class="btn btn-danger" id="delete_row_id_${counter}" onclick="Delete_Row(this.id)">X</button></td>`;
 
         var tbody_length = tbody.rows.length;
         var added_new_row = tbody.insertRow(tbody_length);
         added_new_row.id = `row_id_${counter}`;
 
         added_new_row.innerHTML = new_row_content;
+        calculation();
       } else {
 
       }
     } else {
+      var salesPriceValue = salesPrice[search_value];
+      var defaultPriceInputValue = parseFloat(document.getElementById('headerInput').value);
+      var finalPrice = parseFloat(salesPriceValue) + ((parseFloat(salesPriceValue) * defaultPriceInputValue) / 100);
       var new_row_content = '';
       new_row_content += `<td id="counter_id_${counter}">${counter}</td>`;
       new_row_content += `<td id="product_td_${counter}"><input class="form-control border" type="text" value="${search_value}" id="product_id_${counter}" /></td>`;
       new_row_content += `<td><input class="form-control border" type="text" onkeyup="calculation()" value="1" id="Quantity_id_${counter}" /></td>`;
-      new_row_content += `<td><input class="form-control border" type="text" onkeyup="calculation()" value="" id="Price_1_id_${counter}" /></td>`;
+      new_row_content += `<td><input class="form-control border" type="text" onkeyup="calculation()" value="${finalPrice}" id="Price_1_id_${counter}" /></td>`;
       new_row_content += `<td><input class="form-control border" type="text" value="" id="Row_Total_id_${counter}" /></td>`;
 
       new_row_content += `<td><button class="btn btn-danger" id="delete_row_id_${counter}" onclick="Delete_Row(this.id)">X</button></td>`;
@@ -58,6 +65,7 @@ function add_row(search_value) {
       added_new_row.id = `row_id_${counter}`;
 
       added_new_row.innerHTML = new_row_content;
+      calculation();
     }
 
     document.getElementById('search_input').value = '';
@@ -106,7 +114,7 @@ function discount() {
   const total = parseFloat(document.getElementById('total_input').value);
   const discount_input = parseFloat(document.getElementById('discount_input').value);
 
-  const after_discount = total - ((10 * total) / 100);
+  const after_discount = total - ((discount_input * total) / 100);
   document.getElementById('final_price_input').value = after_discount.toFixed(2);
 }
 
@@ -115,4 +123,36 @@ function Delete_Row(id) {
   document.getElementById(`row_id_${id_to_arr[3]}`).remove();
   set_counter();
   calculation();
+}
+
+var salesPrice = {
+  ChewingGum: 12,
+  Monster: 25,
+  Paper: 10,
+  Water: 2,
+};
+onLoad();
+function onLoad() {
+  let options = '';
+  // options +=
+  for (const key in salesPrice) {
+    if (Object.hasOwnProperty.call(salesPrice, key)) {
+      options += `<option value = "${key}"> ${key} </option>`;
+    }
+  }
+  document.getElementById('search_dl').innerHTML = options;
+}
+
+function defaultBenefitPrice() {
+  const tbody_length = tbody.rows.length;
+  for (let index = 0; index < tbody_length; index++) {
+    const ID = tbody.rows[index].id;
+    const id_to_arr = ID.split('_');
+    const productName = document.getElementById(`product_id_${id_to_arr[2]}`).value;
+    const productDefaultPrice = salesPrice[productName];
+    const defaultPriceInputValue = parseFloat(document.getElementById('headerInput').value);
+    const finalPrice = parseFloat(productDefaultPrice) + ((parseFloat(productDefaultPrice) * defaultPriceInputValue) / 100);
+    document.getElementById(`Price_1_id_${id_to_arr[2]}`).value = finalPrice;
+    calculation();
+  }
 }
