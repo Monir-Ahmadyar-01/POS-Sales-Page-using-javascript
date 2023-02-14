@@ -4,28 +4,53 @@ function add_row(search_value) {
   if (event.key == 'Enter') {
     var tbody_length = tbody.rows.length;
 
-    if (tbody_length > 0) {
-      const check = Array();
-      for (let i = 0; i < tbody_length; i++) {
-        const ID = tbody.rows[i].id;
-        const id_to_arr = ID.split('_');
+    if(salesPrice[search_value] === undefined)
+    {  }
+    else
+    {
+      if (tbody_length > 0) {
+        const check = Array();
+        for (let i = 0; i < tbody_length; i++) {
+          const ID = tbody.rows[i].id;
+          const id_to_arr = ID.split('_');
+          const td_input_value = document.getElementById(`product_id_${id_to_arr[2]}`).value;
 
-        const td_input_value = document.getElementById(`product_id_${id_to_arr[2]}`).value;
+          if (search_value == td_input_value) {
+            const Quantity_td_value = document.getElementById(`Quantity_id_${id_to_arr[2]}`).value;
+            const New_Quantity_Value = parseFloat(Quantity_td_value) + 1;
+            document.getElementById(`Quantity_id_${id_to_arr[2]}`).value = New_Quantity_Value;
 
-        if (search_value == td_input_value) {
-          const Quantity_td_value = document.getElementById(`Quantity_id_${id_to_arr[2]}`).value;
-          const New_Quantity_Value = parseFloat(Quantity_td_value) + 1;
-          document.getElementById(`Quantity_id_${id_to_arr[2]}`).value = New_Quantity_Value;
+            calculation();
 
-          calculation();
-
-          check.push('true');
-        } else {
-          check.push('false');
+            check.push('true');
+          } else {
+            check.push('false');
+          }
         }
-      }
 
-      if (check.includes('true') == false) {
+        if (check.includes('true') == false) {
+          var salesPriceValue = salesPrice[search_value];
+          var defaultPriceInputValue = parseFloat(document.getElementById('headerInput').value);
+          var finalPrice = parseFloat(salesPriceValue) + ((parseFloat(salesPriceValue) * defaultPriceInputValue) / 100);
+          var new_row_content = '';
+          new_row_content += `<td id="counter_id_${counter}">${counter}</td>`;
+          new_row_content += `<td id="product_td_${counter}"><input class="form-control border" type="text" value="${search_value}" id="product_id_${counter}" /></td>`;
+          new_row_content += `<td><input class="form-control border" type="text" onkeyup="calculation()" value="1" id="Quantity_id_${counter}" /></td>`;
+          new_row_content += `<td><input class="form-control border" type="text" onkeyup="calculation(); benefit(this.id)" style="border: 2px solid green !important" value="${finalPrice}" id="Price_1_id_${counter}" /></td>`;
+          new_row_content += `<td><input class="form-control border" type="text" value="" id="Row_Total_id_${counter}" /></td>`;
+
+          new_row_content += `<td><button class="btn btn-danger" id="delete_row_id_${counter}" onclick="Delete_Row(this.id)">X</button></td>`;
+
+          var tbody_length = tbody.rows.length;
+          var added_new_row = tbody.insertRow(tbody_length);
+          added_new_row.id = `row_id_${counter}`;
+
+          added_new_row.innerHTML = new_row_content;
+          calculation();
+        } else {
+
+        }
+      } else {
         var salesPriceValue = salesPrice[search_value];
         var defaultPriceInputValue = parseFloat(document.getElementById('headerInput').value);
         var finalPrice = parseFloat(salesPriceValue) + ((parseFloat(salesPriceValue) * defaultPriceInputValue) / 100);
@@ -33,7 +58,7 @@ function add_row(search_value) {
         new_row_content += `<td id="counter_id_${counter}">${counter}</td>`;
         new_row_content += `<td id="product_td_${counter}"><input class="form-control border" type="text" value="${search_value}" id="product_id_${counter}" /></td>`;
         new_row_content += `<td><input class="form-control border" type="text" onkeyup="calculation()" value="1" id="Quantity_id_${counter}" /></td>`;
-        new_row_content += `<td><input class="form-control border" type="text" onkeyup="calculation()" value="${finalPrice}" id="Price_1_id_${counter}" /></td>`;
+        new_row_content += `<td><input class="form-control border" type="text" onkeyup="calculation(); benefit(this.id)" style="border: 2px solid green !important" value="${finalPrice}" id="Price_1_id_${counter}" /></td>`;
         new_row_content += `<td><input class="form-control border" type="text" value="" id="Row_Total_id_${counter}" /></td>`;
 
         new_row_content += `<td><button class="btn btn-danger" id="delete_row_id_${counter}" onclick="Delete_Row(this.id)">X</button></td>`;
@@ -44,37 +69,17 @@ function add_row(search_value) {
 
         added_new_row.innerHTML = new_row_content;
         calculation();
-      } else {
-
       }
-    } else {
-      var salesPriceValue = salesPrice[search_value];
-      var defaultPriceInputValue = parseFloat(document.getElementById('headerInput').value);
-      var finalPrice = parseFloat(salesPriceValue) + ((parseFloat(salesPriceValue) * defaultPriceInputValue) / 100);
-      var new_row_content = '';
-      new_row_content += `<td id="counter_id_${counter}">${counter}</td>`;
-      new_row_content += `<td id="product_td_${counter}"><input class="form-control border" type="text" value="${search_value}" id="product_id_${counter}" /></td>`;
-      new_row_content += `<td><input class="form-control border" type="text" onkeyup="calculation()" value="1" id="Quantity_id_${counter}" /></td>`;
-      new_row_content += `<td><input class="form-control border" type="text" onkeyup="calculation()" value="${finalPrice}" id="Price_1_id_${counter}" /></td>`;
-      new_row_content += `<td><input class="form-control border" type="text" value="" id="Row_Total_id_${counter}" /></td>`;
-
-      new_row_content += `<td><button class="btn btn-danger" id="delete_row_id_${counter}" onclick="Delete_Row(this.id)">X</button></td>`;
-
-      var tbody_length = tbody.rows.length;
-      var added_new_row = tbody.insertRow(tbody_length);
-      added_new_row.id = `row_id_${counter}`;
-
-      added_new_row.innerHTML = new_row_content;
-      calculation();
     }
+      
 
-    document.getElementById('search_input').value = '';
+      document.getElementById('search_input').value = '';
 
-    counter++;
+      counter++;
 
-    set_counter();
+      set_counter();
+    }
   }
-}
 
 function set_counter() {
   const tbody_length = tbody.rows.length;
@@ -108,6 +113,20 @@ function calculation() {
   document.getElementById('total_input').value = total_price.toFixed(2);
 
   discount();
+}
+function benefit (id){
+  var benefitPrice = parseFloat(document.getElementById(id).value);
+  const idToArray = id.split('_');
+  const productName = document.getElementById(`product_id_${idToArray[3]}`).value;
+  var productDefaultPrice =parseFloat(salesPrice[productName]);
+  const defaultPriceInputValue = parseFloat(document.getElementById('headerInput').value);
+  const finalPrice = parseFloat(productDefaultPrice) + ((parseFloat(productDefaultPrice) * defaultPriceInputValue) / 100);
+  if(benefitPrice >= finalPrice ){
+    document.getElementById(`${id}`).setAttribute( 'style', 'border: 2px solid green !important' );
+  }else{
+    document.getElementById(`${id}`).setAttribute( 'style', 'border: 2px solid red !important' );
+  }
+
 }
 
 function discount() {
@@ -154,5 +173,6 @@ function defaultBenefitPrice() {
     const finalPrice = parseFloat(productDefaultPrice) + ((parseFloat(productDefaultPrice) * defaultPriceInputValue) / 100);
     document.getElementById(`Price_1_id_${id_to_arr[2]}`).value = finalPrice;
     calculation();
+    benefit(`Price_1_id_${id_to_arr[2]}`);
   }
 }
